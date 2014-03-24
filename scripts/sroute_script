@@ -1,0 +1,13 @@
+# rs add|del 1.1.1.1 "route add 1.1.1.1"
+echo $1 , $2 , $3 ,
+if [ "$1" = "add" ]; then
+  lineindex=`grep -n $2 /usr/www/sroute_ini | cut -d: -f1`
+  if [ $lineindex > 0 ]; then
+     sed -i "$lineindex c $3" /usr/www/sroute_ini
+  else 
+     #sed -i "$ a\\$3" /usr/www/sroute_ini
+     echo $3 >> /usr/www/sroute_ini
+  fi
+elif [ "$1" = "del" ]; then
+  sed -i "/$2/d"  /usr/www/sroute_ini
+fi

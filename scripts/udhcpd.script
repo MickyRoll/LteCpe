@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if [ ! -f /etc/udhcpd.conf ]; then
+      touch /etc/udhcpd.conf
+fi
+
+chmod 633 /etc/udhcpd.conf
+UDHCPD_CONF="/etc/udhcpd.conf"
+
+echo -n > $UDHCPD_CONF
+echo start $DHCP_START >> $UDHCPD_CONF
+echo end $DHCP_END >> $UDHCPD_CONF
+echo interface $DHCP_INTERFACE >> $UDHCPD_CONF
+echo max_leases	234 >> $UDHCPD_CONF
+echo remaining yes >> $UDHCPD_CONF
+echo auto_time 3 >> $UDHCPD_CONF
+echo lease_file /var/lib/misc/udhcpd.leases >> $UDHCPD_CONF
+#echo opt dns $DHCP_DNS >> $UDHCPD_CONF
+echo opt dns $AP_IPADDR >> $UDHCPD_CONF
+echo option subnet $DHCP_SUBNET >> $UDHCPD_CONF
+#echo option router $DHCP_ROUTER >> $UDHCPD_CONF
+echo option router $AP_IPADDR >> $UDHCPD_CONF
+echo option lease `expr $DHCP_LEASE \* 60` >> $UDHCPD_CONF
+#Static leases map (static_lease B8:70:F4:2E:7C:03 192.168.0.99)
+cat /etc/udhcpd_static.script |
+while read row;do
+  echo static_lease $row >> $UDHCPD_CONF  
+done
