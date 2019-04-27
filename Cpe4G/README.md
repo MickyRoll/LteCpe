@@ -1,3 +1,3 @@
 LteCpe
 ======
-2012~2013
+about 2012~2013 @ NationZ
